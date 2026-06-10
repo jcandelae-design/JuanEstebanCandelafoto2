@@ -1,0 +1,725 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Juan Esteban Candela | Fotografía de Autor</title>
+  <meta name="description" content="Retratos artísticos que capturan la esencia. Fotografía de autor con identidad, luz y expresión." />
+  <meta property="og:title" content="Juan Esteban Candela | Fotografía de Autor" />
+  <meta property="og:image" content="presentacion.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #010101;
+      --bg-surface: #08080C;
+      --bg-elevated: #0F0F14;
+      --text-primary: #FFFFFF;
+      --text-secondary: #A8A8B5;
+      --accent: #E4C08C;
+      --accent-deep: #B88A4B;
+      --accent-glow: #E4C08C;
+      --card-bg: #08080C;
+      --border-gold: #E4C08C;
+      --shadow-premium: 0 30px 60px -20px #000000;
+      --shadow-card: 0 15px 35px -15px #000000;
+      --transition-slow: all 0.7s cubic-bezier(0.2, 0.95, 0.4, 1);
+      --transition-medium: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1);
+      --transition-fast: all 0.3s cubic-bezier(0.2, 0.9, 0.6, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    .app {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.65s cubic-bezier(0.2, 0.95, 0.4, 1), visibility 0.65s, transform 0.65s cubic-bezier(0.2, 0.95, 0.4, 1);
+      transform: scale(0.98);
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    .screen.active {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-surface);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 3px;
+    }
+
+    .home {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .home-photo {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .home-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 22%;
+      transform: scale(1.02);
+      transition: transform 11s cubic-bezier(0.2, 0.95, 0.4, 1);
+    }
+
+    .active .home-photo img {
+      transform: scale(1.12);
+    }
+
+    .home-panel {
+      position: absolute;
+      z-index: 2;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 6% 10vh 6%;
+      background: transparent;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+      border-left: 2px solid var(--accent);
+      padding-left: 14px;
+    }
+
+    .name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 15vw, 8rem);
+      font-weight: 800;
+      line-height: 0.86;
+      letter-spacing: -0.045em;
+      color: white;
+      text-shadow: 0 4px 25px rgba(0,0,0,0.5);
+      margin-bottom: 0.8rem;
+      max-width: 85%;
+    }
+
+    .name::after {
+      content: '';
+      display: block;
+      width: 95px;
+      height: 2px;
+      background: var(--accent);
+      margin-top: 22px;
+    }
+
+    .bio {
+      max-width: 500px;
+      color: #FFFFFA;
+      font-size: 0.92rem;
+      line-height: 1.75;
+      font-weight: 330;
+      margin: 1.5rem 0 2rem;
+      border-left: 1px solid rgba(228,192,140,0.55);
+      padding-left: 24px;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border-bottom: 1.5px solid rgba(255,255,255,0.25);
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: var(--transition-fast);
+      text-decoration: none;
+    }
+
+    .contact-links a:hover {
+      border-bottom-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .category-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 2rem;
+      max-width: 660px;
+    }
+
+    .category-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 26px;
+      background: #0A0A0E;
+      backdrop-filter: blur(10px);
+      border: 0.5px solid var(--accent);
+      color: #FFFFF5;
+      font-weight: 480;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      transition: var(--transition-medium);
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+    }
+
+    .category-btn i {
+      font-size: 0.85rem;
+    }
+
+    .category-btn:hover {
+      background: rgba(228,192,140,0.18);
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateX(6px);
+    }
+
+    .category-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #010101;
+      box-shadow: 0 0 20px rgba(228,192,140,0.5);
+    }
+
+    .view {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    .view-inner {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 5rem 5rem 6rem;
+    }
+
+    @media (max-width: 900px) {
+      .view-inner { padding: 3rem 1.5rem 4rem; }
+    }
+
+    .view-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 4rem;
+      padding-bottom: 1.8rem;
+      border-bottom: 1px solid rgba(228,192,140,0.3);
+      position: relative;
+    }
+
+    .view-head::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 80px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .view-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 5.8rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .view-title i {
+      color: var(--accent);
+      font-size: 0.65em;
+      margin-right: 12px;
+      filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+
+    .back-button {
+      background: transparent;
+      border: none;
+      padding: 8px 0;
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: var(--transition-fast);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 1.5px;
+      border-bottom: 1.5px solid rgba(255,255,255,0.2);
+    }
+
+    .back-button:hover {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      transform: translateX(-6px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2.8rem;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      background: var(--card-bg);
+      cursor: pointer;
+      transition: var(--transition-medium);
+      box-shadow: var(--shadow-card);
+      aspect-ratio: 4 / 5;
+    }
+
+    .card:nth-child(3n+1) { transform: translateY(-8px); }
+    .card:nth-child(5n+2) { transform: translateY(12px); }
+    .card:nth-child(7n+4) { transform: translateY(5px); }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+      display: block;
+    }
+
+    .card img[src="./eventos/evento3.jpg"] {
+      object-position: 24% center;
+    }
+
+    .card:hover {
+      transform: scale(1.02) translateY(-8px);
+      box-shadow: var(--shadow-premium);
+      z-index: 12;
+    }
+
+    .card:hover img {
+      transform: scale(1.07);
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin: 5rem 0 5rem;
+    }
+
+    .plan-card {
+      background: var(--bg-elevated);
+      padding: 3rem 2.2rem;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
+      border-left: 3px solid rgba(228,192,140,0.2);
+      backdrop-filter: blur(4px);
+    }
+
+    .plan-card:nth-child(2) {
+      border-left: 3px solid var(--accent);
+      background: linear-gradient(135deg, #121217 0%, #0A0A0F 100%);
+      transform: scale(1.02);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.7);
+    }
+
+    .plan-icon {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    .plan-card h3 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 1rem;
+    }
+
+    .plan-price {
+      font-size: 1.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin: 1.5rem 0 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .plan-desc {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+
+    .quote-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      padding: 14px 44px;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition-bounce);
+      letter-spacing: 1.5px;
+    }
+
+    .quote-button:hover {
+      background: var(--accent);
+      color: var(--bg);
+      gap: 20px;
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 2.2rem;
+      right: 2.2rem;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(16px);
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 28px;
+      text-decoration: none;
+      border: 1px solid rgba(228,192,140,0.5);
+      transition: var(--transition-bounce);
+      z-index: 1000;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      border-color: var(--accent);
+      background: var(--accent);
+      color: black;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.98);
+      backdrop-filter: blur(28px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.45s ease, visibility 0.45s;
+    }
+
+    .lightbox.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-dialog {
+      position: relative;
+      width: min(92vw, 1400px);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -52px;
+      right: -12px;
+      background: transparent;
+      border: none;
+      width: 48px;
+      height: 48px;
+      color: rgba(255,255,245,0.7);
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+
+    .lightbox-close:hover {
+      color: var(--accent);
+      transform: rotate(90deg);
+    }
+
+    .lightbox-figure {
+      margin: 0;
+      background: #000;
+      box-shadow: 0 0 0 1px rgba(228,192,140,0.35), 0 45px 80px rgba(0,0,0,0.9);
+    }
+
+    .lightbox-figure img {
+      width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-caption {
+      padding: 1.2rem 1rem;
+      color: var(--accent);
+      font-size: 0.7rem;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      text-align: center;
+      background: rgba(0,0,0,0.65);
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .plan-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .plan-card:nth-child(2) { transform: scale(1); }
+      .grid .card:nth-child(3n+1),
+      .grid .card:nth-child(5n+2),
+      .grid .card:nth-child(7n+4) { transform: translateY(0); }
+      .home-panel { padding: 0 5% 8vh 5%; }
+      .category-btn { padding: 8px 20px; }
+    }
+
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: 1fr; gap: 1.8rem; }
+      .category-btn { padding: 8px 18px; font-size: 0.7rem; }
+      .view-head { flex-direction: column; align-items: flex-start; }
+      .whatsapp-float { width: 52px; height: 52px; font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <section class="screen home-screen active" id="homeScreen">
+    <div class="home">
+      <div class="home-photo">
+        <img src="presentacion.jpg" alt="Juan Esteban Candela">
+      </div>
+      <div class="home-panel">
+        <span class="badge">FOTOGRAFÍA DE AUTOR</span>
+        <h1 class="name">Juan Esteban<br>Candela</h1>
+        <p class="bio">Soy Juan Esteban, fotógrafo enfocado en retratos y retratos artísticos.<br>Capturo la identidad y esencia de cada persona a través de la luz y la expresión.</p>
+        <div class="contact-links">
+          <a href="https://wa.me/573216534388?text=Hola%20Juan%2C%20quiero%20agendar%20una%20sesion" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://instagram.com/juan_6328g" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="mailto:jcandelae@gmail.com"><i class="far fa-envelope"></i></a>
+        </div>
+        <nav class="category-grid" id="homeMenu">
+          <button class="category-btn" data-view="retratos"><i class="fas fa-user"></i> Retratos</button>
+          <button class="category-btn" data-view="arte"><i class="fas fa-palette"></i> Arte</button>
+          <button class="category-btn" data-view="eventos"><i class="fas fa-calendar-alt"></i> Eventos</button>
+          <button class="category-btn" data-view="cumpleanos"><i class="fas fa-birthday-cake"></i> Cumpleaños</button>
+          <button class="category-btn" data-view="producto"><i class="fas fa-box"></i> Foto de producto</button>
+          <button class="category-btn" data-view="cotizacion"><i class="fas fa-file-invoice-dollar"></i> Cotización</button>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <section class="screen" id="retratos"><div class="view"><div class="view-inner" id="retratosInner"></div></div></section>
+  <section class="screen" id="arte"><div class="view"><div class="view-inner" id="arteInner"></div></div></section>
+  <section class="screen" id="eventos"><div class="view"><div class="view-inner" id="eventosInner"></div></div></section>
+  <section class="screen" id="cumpleanos"><div class="view"><div class="view-inner" id="cumpleanosInner"></div></div></section>
+  <section class="screen" id="producto"><div class="view"><div class="view-inner" id="productoInner"></div></div></section>
+  <section class="screen" id="cotizacion"><div class="view"><div class="view-inner" id="cotizacionInner"></div></div></section>
+</div>
+
+<a href="https://wa.me/573216534388?text=Hola%20Juan%2C%20quiero%20reservar%20una%20sesión" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-dialog">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <figure class="lightbox-figure">
+      <img id="lightboxImage" src="" alt="" />
+      <figcaption class="lightbox-caption" id="lightboxCaption"></figcaption>
+    </figure>
+  </div>
+</div>
+
+<script>
+  const galleryImages = {
+    retratos: ["./retratos/retrato1.jpg", "./retratos/retrato2.jpg", "./retratos/retrato3.jpg", "./retratos/retrato4.jpg", "./retratos/retrato5.jpg", "./retratos/retrato6.jpg", "./retratos/retrato7.jpg"],
+    arte: ["./arte/arte1.jpg", "./arte/arte2.jpg", "./arte/arte3.jpg", "./arte/arte4.jpg", "./arte/arte5.jpg", "./arte/arte6.jpg", "./arte/arte7.jpg", "./arte/arte8.jpg", "./arte/arte9.jpg"],
+    eventos: ["./eventos/evento1.jpg", "./eventos/evento2.jpg", "./eventos/evento3.jpg", "./eventos/evento4.jpg", "./eventos/evento5.jpg", "./eventos/evento6.jpg", "./eventos/evento7.jpg", "./eventos/evento8.jpg", "./eventos/evento9.jpg", "./eventos/evento10.jpg", "./eventos/evento11.jpeg", "./eventos/evento12.jpeg", "./eventos/evento13.jpeg", "./eventos/evento14.jpg", "./eventos/evento15.jpg", "./eventos/evento16.jpg", "./eventos/evento17.jpg", "./eventos/evento18.jpg", "./eventos/evento19.jpg", "./eventos/evento20.jpg", "./eventos/evento21.jpg", "./eventos/evento22.jpg"],
+    cumpleanos: ["./cumpleanos/cumpleanos1.jpg", "./cumpleanos/cumpleanos2.jpg", "./cumpleanos/cumpleanos3.jpg", "./cumpleanos/cumpleanos4.jpg", "./cumpleanos/cumpleanos5.jpg", "./cumpleanos/cumpleanos6.jpg", "./cumpleanos/cumpleanos7.jpg"],
+    producto: ["./producto/producto1.jpg", "./producto/producto2.jpg", "./producto/producto3.jpg", "./producto/producto4.jpg", "./producto/producto5.jpg", "./producto/producto6.jpg", "./producto/producto7.jpg", "./producto/producto8.jpg", "./producto/producto9.jpg"]
+  };
+
+  function buildGalleryView(categoryId, categoryName, iconClass) {
+    const images = galleryImages[categoryId];
+    if (!images || images.length === 0) {
+      return `<div class="view-head"><h2 class="view-title"><i class="${iconClass}"></i> ${categoryName}</h2><button class="back-button" onclick="showHome()"><i class="fas fa-arrow-left"></i> Inicio</button></div><div style="margin:5rem 0; text-align:left; border-left:2px solid var(--accent); padding-left:2rem; color:var(--text-secondary);">Próximamente · nuevas obras</div>`;
+    }
+    const gridHtml = images.map((img, idx) => `<button class="card" data-lightbox="${img}" data-caption="${categoryName} · obra única" style="--index: ${idx}"><img src="${img}" alt="${categoryName}" loading="lazy" onerror="this.src='https://placehold.co/800x1000/111/666?text=obra'"></button>`).join('');
+    return `<div class="view-head"><h2 class="view-title"><i class="${iconClass}"></i> ${categoryName}</h2><button class="back-button" onclick="showHome()"><i class="fas fa-arrow-left"></i> Inicio</button></div>
+    <nav class="category-grid view-menu" style="margin-bottom: 2.8rem;">
+      <button class="category-btn" data-view="retratos"><i class="fas fa-user"></i> Retratos</button>
+      <button class="category-btn" data-view="arte"><i class="fas fa-palette"></i> Arte</button>
+      <button class="category-btn" data-view="eventos"><i class="fas fa-calendar-alt"></i> Eventos</button>
+      <button class="category-btn" data-view="cumpleanos"><i class="fas fa-birthday-cake"></i> Cumpleaños</button>
+      <button class="category-btn" data-view="producto"><i class="fas fa-box"></i> Foto de producto</button>
+      <button class="category-btn" data-view="cotizacion"><i class="fas fa-file-invoice-dollar"></i> Cotización</button>
+    </nav>
+    <div class="grid">${gridHtml}</div>`;
+  }
+
+  function buildCotizacionView() {
+    return `<div class="view-head"><h2 class="view-title"><i class="fas fa-file-invoice-dollar"></i> Ediciones</h2><button class="back-button" onclick="showHome()"><i class="fas fa-arrow-left"></i> Inicio</button></div>
+    <nav class="category-grid view-menu" style="margin-bottom: 2.8rem;">
+      <button class="category-btn" data-view="retratos"><i class="fas fa-user"></i> Retratos</button>
+      <button class="category-btn" data-view="arte"><i class="fas fa-palette"></i> Arte</button>
+      <button class="category-btn" data-view="eventos"><i class="fas fa-calendar-alt"></i> Eventos</button>
+      <button class="category-btn" data-view="cumpleanos"><i class="fas fa-birthday-cake"></i> Cumpleaños</button>
+      <button class="category-btn" data-view="producto"><i class="fas fa-box"></i> Foto de producto</button>
+      <button class="category-btn" data-view="cotizacion"><i class="fas fa-file-invoice-dollar"></i> Cotización</button>
+    </nav>
+    <div class="plan-grid">
+      <div class="plan-card"><div class="plan-icon"><i class="fas fa-camera-retro"></i></div><h3>Básico</h3><div class="plan-price">$100.000 COP</div><p class="plan-desc">Sesión exprés · 10 fotos editadas · Entrega 5 días · Estilo directo y auténtico.</p></div>
+      <div class="plan-card"><div class="plan-icon"><i class="fas fa-briefcase"></i></div><h3>Marca personal</h3><div class="plan-price">$250.000 COP</div><p class="plan-desc">Branding editorial · 20 fotos · 2 cambios de look · Dirección visual completa.</p></div>
+      <div class="plan-card"><div class="plan-icon"><i class="fas fa-feather-alt"></i></div><h3>Artístico</h3><div class="plan-price">$550.000 COP</div><p class="plan-desc">Producción de autor · 30 fotos · Narrativa conceptual · Impresión fine art incluida.</p></div>
+    </div>
+    <div style="text-align:center; margin: 2rem 0 4rem;"><a class="quote-button" href="https://wa.me/573216534388?text=Hola%20Juan%2C%20quiero%20reservar%20una%20sesión" target="_blank"><i class="fab fa-whatsapp"></i> Reservar por WhatsApp</a></div>`;
+  }
+
+  // Cargar contenido inicial
+  document.getElementById('retratosInner').innerHTML = buildGalleryView('retratos', 'Retratos', 'fas fa-user');
+  document.getElementById('arteInner').innerHTML = buildGalleryView('arte', 'Arte', 'fas fa-palette');
+  document.getElementById('eventosInner').innerHTML = buildGalleryView('eventos', 'Eventos', 'fas fa-calendar-alt');
+  document.getElementById('cumpleanosInner').innerHTML = buildGalleryView('cumpleanos', 'Cumpleaños', 'fas fa-birthday-cake');
+  document.getElementById('productoInner').innerHTML = buildGalleryView('producto', 'Foto de producto', 'fas fa-box');
+  document.getElementById('cotizacionInner').innerHTML = buildCotizacionView();
+
+  const screens = document.querySelectorAll('.screen');
+  const homeScreen = document.getElementById('homeScreen');
+  
+  // Función para mostrar vista
+  window.showView = function(viewId) {
+    screens.forEach(s => s.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+    updateActiveButtons(viewId);
+  };
+  
+  // Función para volver al home
+  window.showHome = function() {
+    screens.forEach(s => s.classList.remove('active'));
+    homeScreen.classList.add('active');
+    updateActiveButtons(null);
+  };
+  
+  // Actualizar estado activo de botones
+  function updateActiveButtons(activeViewId) {
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      if (activeViewId && btn.getAttribute('data-view') === activeViewId) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+  }
+  
+  // Manejador de clics para botones
+  function handleClick(e) {
+    const viewId = e.currentTarget.getAttribute('data-view');
+    if (viewId) showView(viewId);
+  }
+  
+  // Vincular eventos a TODOS los botones (incluyendo los dinámicos)
+  function bindAllButtons() {
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.removeEventListener('click', handleClick);
+      btn.addEventListener('click', handleClick);
+    });
+  }
+  
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImage');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const closeBtn = document.getElementById('lightboxClose');
+  
+  function openLightbox(src, caption) {
+    lightboxImg.src = src;
+    lightboxCaption.textContent = caption;
+    lightbox.classList.add('open');
+  }
+  
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    setTimeout(() => { lightboxImg.src = ''; }, 300);
+  }
+  
+  // Eventos de galería
+  document.querySelector('.app').addEventListener('click', (e) => {
+    const card = e.target.closest('.card');
+    if (card && card.dataset.lightbox) {
+      e.preventDefault();
+      openLightbox(card.dataset.lightbox, card.dataset.caption || 'Fotografía de autor');
+    }
+  });
+  
+  closeBtn.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  
+  // Inicializar
+  bindAllButtons();
+  
+  // Observador de cambios para vincular botones dinámicos
+  const observer = new MutationObserver(() => {
+    bindAllButtons();
+  });
+  
+  observer.observe(document.querySelector('.app'), { childList: true, subtree: true });
+  
+  const defaultBtn = document.querySelector('#homeMenu .category-btn[data-view="retratos"]');
+  if (defaultBtn) defaultBtn.classList.add('active');
+</script>
+</body>
+</html>
+
