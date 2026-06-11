@@ -556,6 +556,7 @@
           <button class="category-btn" data-view="eventos"><i class="fas fa-calendar-alt"></i> Eventos</button>
           <button class="category-btn" data-view="cumpleanos"><i class="fas fa-birthday-cake"></i> Cumpleaños</button>
           <button class="category-btn" data-view="producto"><i class="fas fa-box"></i> Foto de producto</button>
+          <button class="category-btn" data-view="empresas"><i class="fas fa-building"></i> Empresas</button>
           <button class="category-btn" data-view="cotizacion"><i class="fas fa-file-invoice-dollar"></i> Cotización</button>
         </nav>
       </div>
@@ -567,6 +568,7 @@
   <section class="screen" id="eventos"><div class="view"><div class="view-inner" id="eventosInner"></div></div></section>
   <section class="screen" id="cumpleanos"><div class="view"><div class="view-inner" id="cumpleanosInner"></div></div></section>
   <section class="screen" id="producto"><div class="view"><div class="view-inner" id="productoInner"></div></div></section>
+  <section class="screen" id="empresas"><div class="view"><div class="view-inner" id="empresasInner"></div></div></section>
   <section class="screen" id="cotizacion"><div class="view"><div class="view-inner" id="cotizacionInner"></div></div></section>
 </div>
 
@@ -588,7 +590,8 @@
     arte: ["./arte/arte1.jpg", "./arte/arte2.jpg", "./arte/arte3.jpg", "./arte/arte4.jpg", "./arte/arte5.jpg", "./arte/arte6.jpg", "./arte/arte7.jpg", "./arte/arte8.jpg", "./arte/arte9.jpg"],
     eventos: ["./eventos/evento1.jpg", "./eventos/evento2.jpg", "./eventos/evento3.jpg", "./eventos/evento4.jpg", "./eventos/evento5.jpg", "./eventos/evento6.jpg", "./eventos/evento7.jpg", "./eventos/evento8.jpg", "./eventos/evento9.jpg", "./eventos/evento10.jpg", "./eventos/evento11.jpeg", "./eventos/evento12.jpeg", "./eventos/evento13.jpeg", "./eventos/evento14.jpg", "./eventos/evento15.jpg", "./eventos/evento16.jpg", "./eventos/evento17.jpg", "./eventos/evento18.jpg", "./eventos/evento19.jpg", "./eventos/evento20.jpg", "./eventos/evento21.jpg", "./eventos/evento22.jpg"],
     cumpleanos: ["./cumpleanos/cumpleanos1.jpg", "./cumpleanos/cumpleanos2.jpg", "./cumpleanos/cumpleanos3.jpg", "./cumpleanos/cumpleanos4.jpg", "./cumpleanos/cumpleanos5.jpg", "./cumpleanos/cumpleanos6.jpg", "./cumpleanos/cumpleanos7.jpg"],
-    producto: ["./producto/producto1.jpg", "./producto/producto2.jpg", "./producto/producto3.jpg", "./producto/producto4.jpg", "./producto/producto5.jpg", "./producto/producto6.jpg", "./producto/producto7.jpg", "./producto/producto8.jpg", "./producto/producto9.jpg"]
+    producto: ["./producto/producto1.jpg", "./producto/producto2.jpg", "./producto/producto3.jpg", "./producto/producto4.jpg", "./producto/producto5.jpg", "./producto/producto6.jpg", "./producto/producto7.jpg", "./producto/producto8.jpg", "./producto/producto9.jpg"],
+    empresas: ["./empresa/empresa1.jpg", "./empresa/empresa2.jpg", "./empresa/empresa3.jpg", "./empresa/empresa4.jpg", "./empresa/empresa5.jpg", "./empresa/empresa6.jpg", "./empresa/empresa7.jpg", "./empresa/empresa8.jpg", "./empresa/empresa9.jpg", "./empresa/empresa10.jpg", "./empresa/empresa11.jpg", "./empresa/empresa12.jpg", "./empresa/empresa13.jpg", "./empresa/empresa14.jpg", "./empresa/empresa15.jpg", "./empresa/empresa16.jpg"]
   };
 
   function buildGalleryView(categoryId, categoryName, iconClass) {
@@ -604,6 +607,7 @@
       <button class="category-btn" data-view="eventos"><i class="fas fa-calendar-alt"></i> Eventos</button>
       <button class="category-btn" data-view="cumpleanos"><i class="fas fa-birthday-cake"></i> Cumpleaños</button>
       <button class="category-btn" data-view="producto"><i class="fas fa-box"></i> Foto de producto</button>
+      <button class="category-btn" data-view="empresas"><i class="fas fa-building"></i> Empresas</button>
       <button class="category-btn" data-view="cotizacion"><i class="fas fa-file-invoice-dollar"></i> Cotización</button>
     </nav>
     <div class="grid">${gridHtml}</div>`;
@@ -617,6 +621,7 @@
       <button class="category-btn" data-view="eventos"><i class="fas fa-calendar-alt"></i> Eventos</button>
       <button class="category-btn" data-view="cumpleanos"><i class="fas fa-birthday-cake"></i> Cumpleaños</button>
       <button class="category-btn" data-view="producto"><i class="fas fa-box"></i> Foto de producto</button>
+      <button class="category-btn" data-view="empresas"><i class="fas fa-building"></i> Empresas</button>
       <button class="category-btn" data-view="cotizacion"><i class="fas fa-file-invoice-dollar"></i> Cotización</button>
     </nav>
     <div class="plan-grid">
@@ -633,6 +638,7 @@
   document.getElementById('eventosInner').innerHTML = buildGalleryView('eventos', 'Eventos', 'fas fa-calendar-alt');
   document.getElementById('cumpleanosInner').innerHTML = buildGalleryView('cumpleanos', 'Cumpleaños', 'fas fa-birthday-cake');
   document.getElementById('productoInner').innerHTML = buildGalleryView('producto', 'Foto de producto', 'fas fa-box');
+  document.getElementById('empresasInner').innerHTML = buildGalleryView('empresas', 'Empresas', 'fas fa-building');
   document.getElementById('cotizacionInner').innerHTML = buildCotizacionView();
 
   const screens = document.querySelectorAll('.screen');
